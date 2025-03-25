@@ -8,8 +8,8 @@ def hello():
     return "Hello world"
 @app.route('/add', methods=['POST'])
 def add1():
-    print("Received Headers:", request.headers)
-    print("Received Body:", request.data)
+    # print("Received Body:", request.data)
+    print("Received Headers:", request.headers.get())
     if request.headers.get('Content-Type') != 'application/json':
         return jsonify({'error': 'Content-Type must be application/json'}), 400
 

@@ -10,7 +10,7 @@ def hello():
 def add1():
     # print("Received Body:", request.data)
     print("Received Headers:", request.headers.get('Content-Type'))
-    if request.headers.get('Content-Type') != 'application/json':
+    if request.headers.get('Content-Type') != 'application/json; charset=utf-8':
         return jsonify({'error': 'Content-Type must be application/json'}), 400
 
     try:

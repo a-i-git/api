@@ -1,5 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import joblib 
+from sklearn.preprocessing import LabelEncoder,StandardScaler
+import sklearn
+
 app = Flask(__name__)
 CORS(app)
 
@@ -10,15 +14,22 @@ def hello():
 def add1():
     # print("Received Body:", request.data)
     print("Received Headers:", request.headers.get('Content-Type'))
-    if request.headers.get('Content-Type') != 'application/json; charset=utf-8':
-        return jsonify({'error': 'Content-Type must be application/json'}), 400
+    # if request.headers.get('Content-Type') != 'application/json; charset=utf-8':
+    #     return jsonify({'error': 'Content-Type must be application/json'}), 400
 
     try:
         data = request.get_json()
-        if data is None:
-            return jsonify({'error': 'Invalid JSON data'}), 400
+        print(data)
+        # if data is None:
+        #     return jsonify({'error': 'Invalid JSON data'}), 400
 
-        return jsonify({'message': 'Success', 'received_data': data}), 200
+        model_test = joblib.load('api\ExtraTrees_LB.joblib')
+        values=data['values']
+        print(sklearn.__version__)
+        sc=StandardScaler()
+        values=sc.fit_transform([values])
+        prediction=model_test.predict(values)
+        return jsonify({'message': 'Success', 'received_data': prediction[0]}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

@@ -23,7 +23,7 @@ def add1():
         # if data is None:
         #     return jsonify({'error': 'Invalid JSON data'}), 400
 
-        model_test = joblib.load('api\ExtraTrees_LB.joblib')
+        model_test = joblib.load('api/ExtraTrees_LB.joblib')
         values=data['values']
         print(sklearn.__version__)
         sc=StandardScaler()
